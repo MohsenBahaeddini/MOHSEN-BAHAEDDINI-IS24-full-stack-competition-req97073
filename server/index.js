@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const {
   getProducts,
@@ -26,12 +27,12 @@ const passProductsAlong = (req, res, next) => {
 };
 
 const app = express();
-
-app.use(morgan("tiny"));
-app.use(express.json());
-
+// allow CORS for all routes
+app.use(cors());
 // global middleware to add products to response locals
 app.use(passProductsAlong);
+app.use(morgan("tiny"));
+app.use(express.json());
 
 // REST endpoints
 //=======================================
@@ -48,24 +49,26 @@ app.get("/api/health", (req, res) => {
 app.get("/api/products", getProducts);
 
 // retrieve a single product by ID
-app.get("/api/products/:id", getProductById);
+app.get("/api/product/:id", getProductById);
 
 // retrieve products that CRRENTLY ARE BEING DEVELOPED OR MAINTAINED
-
+// randomly select 3 products for the first time they click ?
 // add a new product
 app.post("/api/new-product", addProduct);
 
 // edit a specific product
-app.patch("/api/products/:id", editProduct);
+app.patch("/api/update-product/:id", editProduct);
 
 // retrieve products by Scrum Master name
 app.get(
-  "/api/products/scrum-masters/:scrumMasterName",
+  "/api/products/scrum-master/:scrumMasterName",
   findProductsByScrumMasterName
 );
 
 // retrieve products by Developer name
-app.get("/api/products/developers/:developerName", findProductsByDeveloper);
+app.get("/api/products/developer/:developerName", findProductsByDeveloper);
+
+//=======================================
 
 // this is our catch all endpoint.
 app.get("*", (req, res) => {

@@ -32,19 +32,19 @@ const addProduct = (req, res) => {
   } = req.body;
 
   // validate that all required fields are present
-  if (
-    !productName ||
-    !productOwnerName ||
-    !scrumMasterName ||
-    !developers ||
-    !startDate ||
-    !methodology
-  ) {
-    res.status(400).json({
-      error: "All fields are required",
-    });
-    return;
-  }
+  // if (
+  //   !productName ||
+  //   !productOwnerName ||
+  //   !scrumMasterName ||
+  //   !developers ||
+  //   !startDate ||
+  //   !methodology
+  // ) {
+  //   res.status(400).json({
+  //     error: "All fields are required",
+  //   });
+  //   return;
+  // }
 
   const products = res.locals.products;
 
@@ -65,7 +65,7 @@ const addProduct = (req, res) => {
 
   // add the new product to the list of products
   products.push(newProduct);
-
+  console.log(products);
   // return the new product object
   res.status(201).json(newProduct);
 };
