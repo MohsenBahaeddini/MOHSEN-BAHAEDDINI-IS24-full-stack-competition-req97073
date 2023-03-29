@@ -1,17 +1,10 @@
 import styled from "styled-components";
 import { useTable } from "react-table";
+import { FaEdit } from "react-icons/fa";
 
-const columns = [
-  { Header: "Product Id", accessor: "productId" },
-  { Header: "Product Name", accessor: "productName" },
-  { Header: "Product Owner", accessor: "productOwnerName" },
-  { Header: "Scrum Master", accessor: "scrumMasterName" },
-  { Header: "Developers", accessor: "developers" },
-  { Header: "Start Date", accessor: "startDate" },
-  { Header: "Methodology", accessor: "methodology" },
-];
 
-const ProductsTable = ({ products }) => {
+
+const ProductsTable = ({ products, handleEditClick, columns }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -79,5 +72,11 @@ const Table = styled.table`
     font-size: 14px;
   }
 `;
-
+const EditButton = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 8px;
+  color: #333;
+`;
 export default ProductsTable;

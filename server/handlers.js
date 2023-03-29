@@ -50,7 +50,7 @@ const addProduct = (req, res) => {
 
   // generate a new product ID
   const maxId = Math.max(...products.map((p) => p.productId), 0);
-  const newProductId = maxId + 1;
+  const newProductId = (maxId + 1).toString();
 
   // create the new product object
   const newProduct = {
@@ -65,8 +65,6 @@ const addProduct = (req, res) => {
 
   // add the new product to the list of products
   products.push(newProduct);
-  console.log(products);
-  // return the new product object
   res.status(201).json(newProduct);
 };
 
@@ -128,7 +126,7 @@ const findProductsByScrumMasterName = (req, res) => {
 const findProductsByDeveloper = (req, res) => {
   const products = res.locals.products;
   const { developerName } = req.params;
-  console.log(req.params);
+
   // Filter the products based on the Developer name
   const filteredProducts = products.filter((product) =>
     product.developers.includes(developerName)

@@ -1,9 +1,11 @@
+import EditProduct from "./EditProduct";
 import ProductsList from "./ProductsList";
 const Home = () => {
   return (
     <>
       Home page
       <ProductsList />
+
     </>
   );
 };
