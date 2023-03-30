@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { useTable } from "react-table";
-import { FaEdit } from "react-icons/fa";
-
 
 
 const ProductsTable = ({ products, handleEditClick, columns }) => {
@@ -32,7 +30,7 @@ const ProductsTable = ({ products, handleEditClick, columns }) => {
               {row.cells.map((cell) => (
                 <td {...cell.getCellProps()}>
                   {cell.column.id === "developers" &&
-                  cell.value &&
+                  Array.isArray(cell.value) &&
                   cell.value.length > 1
                     ? cell.value.join(", ")
                     : cell.render("Cell")}
@@ -72,11 +70,11 @@ const Table = styled.table`
     font-size: 14px;
   }
 `;
-const EditButton = styled.button`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin-right: 8px;
-  color: #333;
-`;
+// const EditButton = styled.button`
+//   background-color: transparent;
+//   border: none;
+//   cursor: pointer;
+//   margin-right: 8px;
+//   color: #333;
+// `;
 export default ProductsTable;
