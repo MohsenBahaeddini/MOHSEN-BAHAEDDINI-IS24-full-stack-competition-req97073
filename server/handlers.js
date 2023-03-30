@@ -102,8 +102,9 @@ const editProduct = (req, res) => {
 
 const findProductsByScrumMasterName = (req, res) => {
   const products = res.locals.products;
+
   const { scrumMasterName } = req.params;
-  console.log(req.params);
+
   // Filter the products based on the Scrum Master name
   const filteredProducts = products.filter((product) =>
     product.scrumMasterName
@@ -118,7 +119,7 @@ const findProductsByScrumMasterName = (req, res) => {
   } else {
     res.status(404).json({
       error:
-        "No product found. Please make sure you have entered the full name of scrum master correctly.",
+        "No product found. Please make sure you have entered the scrum master name correctly.",
     });
   }
 };
@@ -127,10 +128,17 @@ const findProductsByDeveloper = (req, res) => {
   const products = res.locals.products;
   const { developerName } = req.params;
 
-  // Filter the products based on the Developer name
+  console.log(products);
+  // Convert developerName to lowercase
+  const lowercaseDeveloperName = developerName.toLowerCase();
+
+  // Filter the products based on the developer name
   const filteredProducts = products.filter((product) =>
-    product.developers.includes(developerName)
+    product.developers.some((developer) =>
+      developer.toLowerCase().includes(lowercaseDeveloperName)
+    )
   );
+
   const totalProducts = filteredProducts.length;
 
   if (filteredProducts.length) {
@@ -138,7 +146,7 @@ const findProductsByDeveloper = (req, res) => {
   } else {
     res.status(404).json({
       error:
-        "No product found. Please make sure you have entered the full name of the Developer correctly.",
+        "No product found. Please make sure you have entered the name of the Developer correctly.",
     });
   }
 };
