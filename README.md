@@ -12,11 +12,13 @@ These instructions will get you a copy of the project up and running on your loc
 - __Server:__ `nodemon`, `express`, `cors`, `morgan`
 
 ## Installation and Setup
+__1.__ Clone the repository
 
-1- Clone the repository 
-2- Install Node.js from the official website if you don't already have it installed on your machine
-3- Install the dependencies for the frontend by navigating to the "client" directory and running the following command: `npm install` or `yarn install`
-4- Install the dependencies for the backend by navigating to the "server" directory and running the following command: `npm install` or `yarn install`
+__2.__ Install Node.js from the official website if you don't already have it installed on your machine
+
+__3.__ Install the dependencies for the frontend by navigating to the "client" directory and running the following command: `npm install` or `yarn install`
+
+__4.__ Install the dependencies for the backend by navigating to the "server" directory and running the following command: `npm install` or `yarn install`
 
 ## Running the Application
 - Open two terminal windows.
