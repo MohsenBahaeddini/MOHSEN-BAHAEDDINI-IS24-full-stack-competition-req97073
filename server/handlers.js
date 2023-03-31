@@ -133,10 +133,12 @@ const findProductsByDeveloper = (req, res) => {
   const lowercaseDeveloperName = developerName.toLowerCase();
 
   // Filter the products based on the developer name
-  const filteredProducts = products.filter((product) =>
-    product.developers.some((developer) =>
-      developer.toLowerCase().includes(lowercaseDeveloperName)
-    )
+  const filteredProducts = products.filter(
+    (product) =>
+      Array.isArray(product.developers) &&
+      product.developers.some((developer) =>
+        developer.toLowerCase().includes(lowercaseDeveloperName)
+      )
   );
 
   const totalProducts = filteredProducts.length;

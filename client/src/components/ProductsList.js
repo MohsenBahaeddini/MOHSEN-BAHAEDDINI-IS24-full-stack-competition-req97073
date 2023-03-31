@@ -108,7 +108,7 @@ const ProductsList = () => {
       <Header>
         <Title>IMB PRODUCTS</Title>
         <Description>
-          A list of web applications developed by pplications Developed by the
+          A list of web applications developed by the
           BC Government Ministry of Citizens' Services Information Management
           Branch (IMB)
         </Description>
