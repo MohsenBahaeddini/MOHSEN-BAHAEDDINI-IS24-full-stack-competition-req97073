@@ -20,7 +20,7 @@ __4.__ Install the dependencies for the backend by navigating to the "server" di
 ## Running the Application
 - Open two terminal windows.
 - In the first terminal window, navigate to the server directory start the backend server by running the following command:
-`npm start` or `yarn start`
+`yarn start` or `npm start`
 - In the second terminal window, navigate to the client directory start the frontend development server by running the following command:
-`npm start` or `yarn start`
+`yarn start` or `npm start` 
 - Open a web browser and go to http://localhost:3000 to view the application!
