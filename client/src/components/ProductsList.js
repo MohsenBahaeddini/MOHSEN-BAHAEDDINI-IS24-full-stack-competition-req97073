@@ -118,9 +118,9 @@ const ProductsList = () => {
       <Header>
         <Title>
           BC Government Ministry of
-          <Title>
-            Citizens' Services Information Management Branch (IMB) Products
-          </Title>
+          <TitleBreakLine>
+            Citizens' Services Information Management Branch (IMB) Products{" "}
+          </TitleBreakLine>
         </Title>
         <Description>
           A list of web applications developed by the BC Government Ministry of
@@ -176,6 +176,10 @@ const Container = styled.div`
   padding: 10% 5%;
 `;
 
+const TitleBreakLine = styled.h1`
+  font-size: 24px;
+  font-weight: bold;
+`;
 const Header = styled.header`
   display: flex;
   flex-direction: column;
