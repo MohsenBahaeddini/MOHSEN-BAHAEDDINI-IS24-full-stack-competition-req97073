@@ -176,7 +176,7 @@ const Container = styled.div`
   padding: 10% 5%;
 `;
 
-const TitleBreakLine = styled.h1`
+const TitleBreakLine = styled.div`
   font-size: 24px;
   font-weight: bold;
 `;

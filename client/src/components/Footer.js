@@ -6,7 +6,7 @@ const Footer = () => {
     <FooterWrapper>
       <ContentWrapper>
         <Logo>
-          <StyledNavLink exact to="/">
+          <StyledNavLink  to="/">
             BC IMB
           </StyledNavLink>
         </Logo>
