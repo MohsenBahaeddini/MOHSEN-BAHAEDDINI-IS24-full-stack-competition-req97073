@@ -1,12 +1,12 @@
 # MOHSEN-BAHAEDDINI-IS24-full-stack-competition-req97073
 
-## :hammer_and_wrench: Tech Stack
-- __Client:__ `React.js`, `Styled-Components`
-- __Server:__ `Node.js`, `Express`
+## :hammer_and_wrench: Tech Stack and Dependencies
+- __Client:__ `React.js`, `React Router DOM`, `React Table`, `Styled-Components`, `React Icons`
+- __Server:__ `Node.js`, `Express`, `Nodemon`, `CORS`, `Morgan`
 
 ## Dependencies
-- __Client:__ `react-router-dom`, `react-table`, `styled-components`, `react-icons`
-- __Server:__ `nodemon`, `express`, `cors`, `morgan`
+- __Client:__ 
+- __Server:__  `express`, `cors`, `morgan`
 
 ## Installation and Setup
 __1.__ Clone the repository
