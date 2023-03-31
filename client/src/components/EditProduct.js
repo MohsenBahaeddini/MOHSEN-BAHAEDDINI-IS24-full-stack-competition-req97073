@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
+
+// EditProduct component which takes products and onUpdateProduct as props from ProductsList 
+const EditProduct = ({ product, onUpdateProduct }) => {
   const [formData, setFormData] = useState({
     productName: product.productName,
     scrumMasterName: product.scrumMasterName,
@@ -12,11 +14,13 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
   });
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Function to update the formData 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  // Function to handle change event for a developer's name input field
   const handleDeveloperChange = (index, event) => {
     const { value } = event.target;
     setFormData((prevFormData) => {
@@ -30,6 +34,7 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
     });
   };
 
+  // Add a new field to add a new developer name
   const addDeveloper = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -37,6 +42,7 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
     }));
   };
 
+  // Function to handle removing a developer name 
   const removeDeveloper = (index, event) => {
     event.preventDefault();
     const newDevelopers = [...formData.developers];
@@ -47,6 +53,8 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
     }));
   };
 
+
+  // Function to handle the submission of the form when the "Save" button is clicked.
   const handleSubmit = (event) => {
     event.preventDefault();
     if (
@@ -136,9 +144,31 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
   );
 };
 
-const AddButton = styled.button``;
+const AddButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #005f91;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  font-size: 14px;
+  margin-top: 2px;
+  cursor: pointer;
+`;
 
-const RemoveButton = styled.button``;
+const RemoveButton = styled.button`
+  background-color: #e86e00;
+  color: white;
+  outline: none;
+  font-size: 14px;
+  border: none;
+  border-radius: 2px;
+  padding: 0.25rem 1rem;
+  vertical-align: middle;
+  cursor: pointer;
+`;
 
 const FormWrapper = styled.form`
   display: flex;
@@ -174,7 +204,6 @@ const Form = styled.div`
   input:focus,
   select:focus {
     outline: none;
-    /* border-radius: 2px; */
     border: 2px solid #424656;
   }
 
@@ -218,4 +247,5 @@ const ErrorMessage = styled.div`
   color: red;
   margin-top: 0.5rem;
 `;
+
 export default EditProduct;

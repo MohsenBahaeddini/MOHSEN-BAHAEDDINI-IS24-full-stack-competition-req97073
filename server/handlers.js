@@ -31,21 +31,7 @@ const addProduct = (req, res) => {
     methodology,
   } = req.body;
 
-  // validate that all required fields are present
-  // if (
-  //   !productName ||
-  //   !productOwnerName ||
-  //   !scrumMasterName ||
-  //   !developers ||
-  //   !startDate ||
-  //   !methodology
-  // ) {
-  //   res.status(400).json({
-  //     error: "All fields are required",
-  //   });
-  //   return;
-  // }
-
+  
   const products = res.locals.products;
 
   // generate a new product ID
@@ -100,6 +86,8 @@ const editProduct = (req, res) => {
   }
 };
 
+
+// find and filter products for the scrum master name that users search 
 const findProductsByScrumMasterName = (req, res) => {
   const products = res.locals.products;
 
@@ -124,6 +112,7 @@ const findProductsByScrumMasterName = (req, res) => {
   }
 };
 
+// find and filter products for the developer name that users search 
 const findProductsByDeveloper = (req, res) => {
   const products = res.locals.products;
   const { developerName } = req.params;

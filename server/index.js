@@ -51,8 +51,6 @@ app.get("/api/products", getProducts);
 // retrieve a single product by ID
 app.get("/api/product/:id", getProductById);
 
-// retrieve products that CURRENTLY ARE BEING DEVELOPED OR MAINTAINED
-// randomly select 3 products for the first time they click ?
 // add a new product
 app.post("/api/new-product", addProduct);
 
@@ -70,7 +68,7 @@ app.get("/api/products/developer/:developerName", findProductsByDeveloper);
 
 //=======================================
 
-// this is our catch all endpoint.
+// this is catch all endpoint.
 app.get("*", (req, res) => {
   res.status(404).json({
     status: 404,

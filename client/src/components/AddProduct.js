@@ -2,12 +2,14 @@ import { useState } from "react";
 import styled from "styled-components";
 import { FaPlusCircle } from "react-icons/fa";
 
+// AddProduct component to add a new product to a list of products. It receives onAddProduct, setProducts, setIsModalOpen, products as props from ProductList component
 const AddProduct = ({
   onAddProduct,
   setProducts,
   setIsModalOpen,
   products,
 }) => {
+  // Define state variables
   const [productName, setProductName] = useState("");
   const [scrumMaster, setScrumMaster] = useState("");
   const [productOwner, setProductOwner] = useState("");
@@ -15,6 +17,8 @@ const AddProduct = ({
   const [methodology, setMethodology] = useState("");
   const [developerNames, setDeveloperNames] = useState([""]);
 
+
+  // This function is called when the user clicks on the "Add Developer" button. It checks if the current number of developer names is less than 5, and adds an empty input field for a new developer name
   const addDeveloperNameInput = () => {
     setDeveloperNames((prevNames) => {
       if (prevNames.length >= 5) {
@@ -24,6 +28,7 @@ const AddProduct = ({
     });
   };
 
+  // When the user types in a developer name input field, it updates the state of the developer names array with the new input value
   const handleDeveloperNameChange = (index, event) => {
     const { value } = event.target;
     setDeveloperNames((prevNames) => {
@@ -34,7 +39,7 @@ const AddProduct = ({
   };
 
   /**
-   ** hadnleSubmit will send the info to the server */
+   ** HandleSubmit sends a POST request to the server with the form data in the request body, when the user submits the form */
   const handleSubmit = (ev) => {
     ev.preventDefault();
     if (
@@ -203,7 +208,6 @@ const Form = styled.div`
   input:focus,
   select:focus {
     outline: none;
-    /* border-radius: 2px; */
     border: 2px solid #424656;
   }
 

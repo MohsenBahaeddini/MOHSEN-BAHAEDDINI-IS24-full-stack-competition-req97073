@@ -1,6 +1,7 @@
 import { keyframes } from "styled-components";
 import styled from "styled-components";
 
+// LoadingIndicator(Spinner) when the table is loading 
 const LoadingIndicator = () => {
   return (
     <CenteredLoading>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import ProductsList from "./ProductsList";
-
+// Landing page of the application and renders the ProductsList component
 const Home = () => {
   return (
     <Container>

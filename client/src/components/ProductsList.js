@@ -7,13 +7,17 @@ import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
 import ProductsTable from "./ProductsTable";
 
+// This component retrieves data from API and displays a list of products
+
 const ProductsList = () => {
+  // Define state variables for the component
   const [productsListStatus, setProductsListStatus] = useState("loading");
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  // Handle the event when the user clicks on the "edit" button for a product
   const handleEditClick = (productId) => {
     const productToEdit = products.find(
       (product) => product.productId === productId
@@ -22,6 +26,7 @@ const ProductsList = () => {
     setIsEditModalOpen(true);
   };
 
+  // Retrieve the list of products from the API and set the state variables accordingly
   const updateProductList = () => {
     fetch("http://localhost:5000/api/products")
       .then((response) => response.text())
@@ -32,12 +37,13 @@ const ProductsList = () => {
         setProductsListStatus("idle");
       });
   };
-
+  // Update the product list when the component is mounted
   useEffect(() => {
     setProductsListStatus("loading");
     updateProductList();
   }, []);
 
+  // Function to handle the update of a product by sending a PATCH request to the backend
   const handleProductUpdate = (updatedProduct) => {
     fetch(
       `http://localhost:5000/api/update-product/${updatedProduct.productId}`,
@@ -64,6 +70,7 @@ const ProductsList = () => {
       .catch((error) => console.log(error));
   };
 
+  // Define the table columns
   const columns = [
     { Header: "Product Number", accessor: "productId" },
     { Header: "Product Name ", accessor: "productName" },
@@ -95,29 +102,35 @@ const ProductsList = () => {
       });
   }, []);
 
+  // Handle the event when the user clicks on the "add product" button
   const handleAddProduct = (product) => {
     setProducts((prevProducts) => [...prevProducts, product]);
   };
 
+  // Function to handle the add product button click and open the AddProduct modal
   const handleAddClick = () => {
     setIsModalOpen(true);
   };
 
+  // Renders the main ProductsList component
   return (
     <Container>
       <Header>
-        <Title>IMB PRODUCTS</Title>
+        <Title>
+          BC Government Ministry of
+          <Title>
+            Citizens' Services Information Management Branch (IMB) Products
+          </Title>
+        </Title>
         <Description>
-          A list of web applications developed by the
-          BC Government Ministry of Citizens' Services Information Management
-          Branch (IMB)
+          A list of web applications developed by the BC Government Ministry of
+          Citizens' Services Information Management Branch (IMB)
         </Description>
       </Header>
       {productsListStatus === "loading" && <LoadingIndicator />}
 
       {productsListStatus === "idle" && (
         <>
-          {/* <AddButton onClick={handleAddClick}>Add Product</AddButton> */}
           <ProductsTable
             products={products}
             handleEditClick={handleEditClick}
@@ -132,7 +145,6 @@ const ProductsList = () => {
             <EditProduct
               product={editingProduct}
               onUpdateProduct={handleProductUpdate}
-              setIsEditModalOpen={setIsEditModalOpen}
             />
             <CloseButton onClick={() => setIsEditModalOpen(false)}>
               Cancel
@@ -161,7 +173,7 @@ const ProductsList = () => {
 };
 
 const Container = styled.div`
-  padding: 100px 50px;
+  padding: 10% 5%;
 `;
 
 const Header = styled.header`
@@ -169,10 +181,15 @@ const Header = styled.header`
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  margin: 50px 0;
-  padding: 50px;
+  margin: 5% 0;
+  padding: 5% 3%;
   background-color: #bfcaff;
   border-radius: 2px;
+
+  @media screen and (max-width: 768px) {
+    margin: 10% 0;
+    padding: 5%;
+  }
 `;
 const Title = styled.h1`
   font-size: 24px;
@@ -180,7 +197,7 @@ const Title = styled.h1`
 `;
 const Description = styled.p`
   font-size: 18px;
-  padding-top: 10px;
+  padding-top: 30px;
 `;
 
 const Modal = styled.div`
@@ -228,4 +245,5 @@ const EditButton = styled.button`
   margin-right: 8px;
   color: #333;
 `;
+
 export default ProductsList;

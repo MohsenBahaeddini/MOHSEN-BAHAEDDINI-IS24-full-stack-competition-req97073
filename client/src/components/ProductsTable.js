@@ -1,8 +1,11 @@
+// Import necessary modules:
 import styled from "styled-components";
 import { useTable } from "react-table";
 import { useState } from "react";
 import { FaSearch, FaPlusCircle } from "react-icons/fa";
 
+
+// ProductsTable component which takes products, columns, and handleAddClick as props from ProductsList 
 const ProductsTable = ({ products, columns, handleAddClick }) => {
   const [searchTermSM, setSearchTermSM] = useState("");
   const [filteredProductsSM, setFilteredProductsSM] = useState([]);
@@ -14,6 +17,7 @@ const ProductsTable = ({ products, columns, handleAddClick }) => {
   const [isLoadingDev, setIsLoadingDev] = useState(false);
   const [errorMessageDev, setErrorMessageDev] = useState("");
 
+  // Function to retrieve products by developer name and set the results accordingly
   const handleSearchDev = async () => {
     setIsLoadingDev(true);
     if (!searchTermDev.length) {
@@ -40,6 +44,8 @@ const ProductsTable = ({ products, columns, handleAddClick }) => {
     }
   };
 
+
+   // Function to retrieve products by scrum master name and set the results accordingly 
   const handleSearchSM = async () => {
     setIsLoadingSM(true);
     if (!searchTermSM.length) {
@@ -66,6 +72,8 @@ const ProductsTable = ({ products, columns, handleAddClick }) => {
     }
   };
 
+
+  // useTable hook from react-table library to render table header, body, and rows based on columns and filteredProductsSM or filteredProductsDev or products
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -76,15 +84,18 @@ const ProductsTable = ({ products, columns, handleAddClick }) => {
         : products,
     });
 
+
   const totalProducts =
     filteredProductsSM.length || filteredProductsDev.length || products.length;
 
+
+    // handle clearing search results for Scrum Master 
   const handleClearSearchSM = () => {
     setSearchTermSM("");
     setFilteredProductsSM([]);
     setErrorMessageSM("");
   };
-
+// handle clearing search results for Developer names
   const handleClearSearchDev = () => {
     setSearchTermDev("");
     setFilteredProductsDev([]);
@@ -173,6 +184,10 @@ const ProductsTable = ({ products, columns, handleAddClick }) => {
 
 const SearchBar = styled.div`
   position: relative;
+  margin-bottom: 1rem;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ErrorMsg = styled.div`
@@ -192,6 +207,10 @@ const SearchInput = styled.input`
   font-size: 18px;
   :focus {
     border: 2px solid #424656;
+  }
+  @media screen and (max-width: 768px) {
+    width: 70%;
+    font-size: 16px;
   }
 `;
 
@@ -213,6 +232,13 @@ const SearchButton = styled.button`
   vertical-align: middle;
   outline: none;
   cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    width: 30%;
+    border-radius: 2px;
+    padding: 0.5rem;
+    font-size: 16px;
+  }
 `;
 
 const ClearButton = styled.button`
@@ -225,11 +251,24 @@ const ClearButton = styled.button`
   padding: 0.5rem 1rem;
   vertical-align: middle;
   cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    width: 30%;
+    border-radius: 2px;
+    padding: 0.5rem;
+    font-size: 16px;
+  }
 `;
 const Controllers = styled.div`
   display: flex;
+
   justify-content: space-between;
   padding: 30px 0;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 const AddButton = styled.button`
   display: flex;
@@ -245,6 +284,11 @@ const AddButton = styled.button`
 
   svg {
     margin-right: 0.5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 `;
 const Table = styled.table`
@@ -279,36 +323,5 @@ const Table = styled.table`
     font-size: 14px;
   }
 `;
-
-// const SearchBar = styled.div`
-//   display: flex;
-//   align-items: center;
-//   margin-bottom: 16px;
-
-//   input {
-//     height: 32px;
-//     padding: 4px 8px;
-//     font-size: 16px;
-//     border: 1px solid #ddd;
-//     border-radius: 4px;
-//     margin-right: 8px;
-//   }
-
-//   button {
-//     height: 32px;
-//     font-size: 16px;
-//     background-color: #008000;
-//     color: #fff;
-//     border: none;
-//     border-radius: 4px;
-//     cursor: pointer;
-//     padding: 0 16px;
-//     transition: background-color 0.3s ease;
-
-//     &:hover {
-//       background-color: #005700;
-//     }
-//   }
-// `;
 
 export default ProductsTable;

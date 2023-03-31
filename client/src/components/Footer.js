@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-
+// Footer component 
 const Footer = () => {
   return (
     <FooterWrapper>
