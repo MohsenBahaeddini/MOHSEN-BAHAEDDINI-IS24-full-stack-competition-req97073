@@ -17,11 +17,41 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  const handleDeveloperChange = (index, event) => {
+    const { value } = event.target;
+    setFormData((prevFormData) => {
+      const newDevelopers = [...prevFormData.developers];
+      if (newDevelopers[index] !== value) {
+        newDevelopers[index] = value;
+        return { ...prevFormData, developers: newDevelopers };
+      } else {
+        return prevFormData;
+      }
+    });
+  };
+
+  const addDeveloper = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      developers: [...prevFormData.developers, ""],
+    }));
+  };
+
+  const removeDeveloper = (index, event) => {
+    event.preventDefault();
+    const newDevelopers = [...formData.developers];
+    newDevelopers.splice(index, 1);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      developers: newDevelopers,
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     if (
-      typeof formData.developers === "string" &&
-      formData.developers.split(",").length > 5
+      formData.developers.length > 5 ||
+      formData.developers.some((name) => name.trim() === "")
     ) {
       setErrorMessage("Please enter a maximum of 5 developers.");
       return;
@@ -63,15 +93,29 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
         </Form>
         <Form>
           <FormDeveloper>
-            <Label>
-              Developers (Maximum 5, separated by comma*):
-              <Input
-                type="text"
-                name="developers"
-                value={formData.developers}
-                onChange={handleChange}
-              />
-            </Label>
+            {formData.developers.map((name, index) => (
+              <Label key={index}>
+                Developer {index + 1}
+                <Input
+                  type="text"
+                  name={`developer${index}`}
+                  value={name}
+                  onChange={(event) => handleDeveloperChange(index, event)}
+                />
+                {formData.developers.length > 1 && (
+                  <RemoveButton
+                    onClick={(event) => removeDeveloper(index, event)}
+                  >
+                    Remove
+                  </RemoveButton>
+                )}
+              </Label>
+            ))}
+            {formData.developers.length < 5 && (
+              <AddButton type="button" onClick={addDeveloper}>
+                Add Developer
+              </AddButton>
+            )}
           </FormDeveloper>
           <Label>
             Methodology
@@ -91,6 +135,10 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
     </>
   );
 };
+
+const AddButton = styled.button``;
+
+const RemoveButton = styled.button``;
 
 const FormWrapper = styled.form`
   display: flex;
