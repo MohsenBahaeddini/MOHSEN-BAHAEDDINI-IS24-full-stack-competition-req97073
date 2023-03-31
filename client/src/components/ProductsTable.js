@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { useTable } from "react-table";
 import { useState } from "react";
+import { FaSearch, FaPlusCircle } from "react-icons/fa";
 
-const ProductsTable = ({ products, columns }) => {
+const ProductsTable = ({ products, columns, handleAddClick }) => {
   const [searchTermSM, setSearchTermSM] = useState("");
   const [filteredProductsSM, setFilteredProductsSM] = useState([]);
   const [isLoadingSM, setIsLoadingSM] = useState(false);
@@ -25,7 +26,9 @@ const ProductsTable = ({ products, columns }) => {
       const data = await response.json();
       if (!data.filteredProducts) {
         setFilteredProductsDev([]);
-        setErrorMessageDev(`No product found for Developer "${searchTermDev}"`);
+        setErrorMessageDev(
+          `No product found for Developer '${searchTermDev}' !`
+        );
       } else {
         setFilteredProductsDev(data.filteredProducts);
         setErrorMessageDev("");
@@ -50,7 +53,7 @@ const ProductsTable = ({ products, columns }) => {
       if (!data.filteredProducts) {
         setFilteredProductsSM([]);
         setErrorMessageSM(
-          `No product found for Scrum Master "${searchTermSM}"`
+          `No product found for Scrum Master '${searchTermSM}' !`
         );
       } else {
         setFilteredProductsSM(data.filteredProducts);
@@ -90,34 +93,46 @@ const ProductsTable = ({ products, columns }) => {
 
   return (
     <div>
-      <SearchBar>
-        <input
-          type="text"
-          value={searchTermSM}
-          onChange={(e) => setSearchTermSM(e.target.value)}
-          placeholder="Search Scrum Master Name..."
-        />
-        <button onClick={() => handleSearchSM()}>Search</button>
-      </SearchBar>
-      {searchTermSM && (
-        <ClearButton onClick={handleClearSearchSM}>Clear Search</ClearButton>
-      )}
-
-      {errorMessageSM && <div>{errorMessageSM}</div>}
-
-      <SearchBar>
-        <input
-          type="text"
-          value={searchTermDev}
-          onChange={(e) => setSearchTermDev(e.target.value)}
-          placeholder="Search Developer Name..."
-        />
-        <button onClick={() => handleSearchDev()}>Search</button>
-      </SearchBar>
-      {searchTermDev && (
-        <ClearButton onClick={handleClearSearchDev}>Clear Search</ClearButton>
-      )}
-      {errorMessageDev && <div>{errorMessageDev}</div>}
+      <Controllers>
+        <AddButton onClick={handleAddClick}>
+          <FaPlusCircle />
+          Add Product
+        </AddButton>
+        <div>
+          <SearchBar>
+            <SearchInput
+              type="text"
+              value={searchTermSM}
+              onChange={(e) => setSearchTermSM(e.target.value)}
+              placeholder="Scrum Master Name"
+            />
+            <SearchIcon />
+            <SearchButton onClick={() => handleSearchSM()}>Search</SearchButton>
+            {searchTermSM && (
+              <ClearButton onClick={handleClearSearchSM}>Clear</ClearButton>
+            )}
+          </SearchBar>
+          {errorMessageSM && <ErrorMsg>{errorMessageSM}</ErrorMsg>}
+        </div>
+        <div>
+          <SearchBar>
+            <SearchInput
+              type="text"
+              value={searchTermDev}
+              onChange={(e) => setSearchTermDev(e.target.value)}
+              placeholder="Developer Name"
+            />
+            <SearchIcon />
+            <SearchButton onClick={() => handleSearchDev()}>
+              Search
+            </SearchButton>
+            {searchTermDev && (
+              <ClearButton onClick={handleClearSearchDev}>Clear</ClearButton>
+            )}
+          </SearchBar>
+          {errorMessageDev && <ErrorMsg>{errorMessageDev}</ErrorMsg>}
+        </div>
+      </Controllers>
 
       <Table {...getTableProps()}>
         <thead>
@@ -156,67 +171,144 @@ const ProductsTable = ({ products, columns }) => {
   );
 };
 
+const SearchBar = styled.div`
+  position: relative;
+`;
+
+const ErrorMsg = styled.div`
+  background-color: #e86e00;
+  padding: 5px;
+  margin: 5px 0;
+  color: white;
+  text-align: center;
+`;
+const SearchInput = styled.input`
+  padding: 0.35rem 1rem;
+  padding-left: 32px;
+  vertical-align: middle;
+  border: 2px solid #005f91;
+  border-radius: 2px 0px 0px 2px;
+  outline: none;
+  font-size: 18px;
+  :focus {
+    border: 2px solid #424656;
+  }
+`;
+
+const SearchIcon = styled(FaSearch)`
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: grey;
+`;
+
+const SearchButton = styled.button`
+  background-color: #005f91;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 0px 2px 2px 0px;
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+  outline: none;
+  cursor: pointer;
+`;
+
+const ClearButton = styled.button`
+  background-color: #e86e00;
+  color: white;
+  outline: none;
+  font-size: 18px;
+  border: none;
+  border-radius: 2px;
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+  cursor: pointer;
+`;
+const Controllers = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0;
+`;
+const AddButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #005f91;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  font-size: 18px;
+  cursor: pointer;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+`;
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  font-size: 17px;
 
   th,
   td {
     padding: 8px;
     border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
   }
 
   th {
-    background-color: #f2f2f2;
+    background-color: #424656;
+    color: white;
   }
 
   tbody tr:nth-child(even) {
     background-color: #f2f2f2;
   }
-
+  tbody tr:nth-child(odd) {
+    background-color: white;
+  }
+  tbody tr:last-child {
+    background-color: #424656;
+    color: white;
+  }
   @media (max-width: 600px) {
     font-size: 14px;
   }
 `;
 
-const SearchBar = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+// const SearchBar = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin-bottom: 16px;
 
-  input {
-    height: 32px;
-    padding: 4px 8px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 8px;
-  }
+//   input {
+//     height: 32px;
+//     padding: 4px 8px;
+//     font-size: 16px;
+//     border: 1px solid #ddd;
+//     border-radius: 4px;
+//     margin-right: 8px;
+//   }
 
-  button {
-    height: 32px;
-    font-size: 16px;
-    background-color: #008000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 0 16px;
-    transition: background-color 0.3s ease;
+//   button {
+//     height: 32px;
+//     font-size: 16px;
+//     background-color: #008000;
+//     color: #fff;
+//     border: none;
+//     border-radius: 4px;
+//     cursor: pointer;
+//     padding: 0 16px;
+//     transition: background-color 0.3s ease;
 
-    &:hover {
-      background-color: #005700;
-    }
-  }
-`;
-
-const ClearButton = styled.button`
-  background-color: transparent;
-  border: none;
-  color: #008000;
-  font-size: 16px;
-  margin-left: 8px;
-  cursor: pointer;
-`;
+//     &:hover {
+//       background-color: #005700;
+//     }
+//   }
+// `;
 
 export default ProductsTable;

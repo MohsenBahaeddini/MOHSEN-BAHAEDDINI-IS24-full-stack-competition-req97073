@@ -31,91 +31,141 @@ const EditProduct = ({ product, onUpdateProduct, setIsEditModalOpen }) => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
-        <Label>
-          Product Name:
-          <Input
-            type="text"
-            name="productName"
-            value={formData.productName}
-            onChange={handleChange}
-          />
-        </Label>
-        <Label>
-          Scrum Master Name:
-          <Input
-            type="text"
-            name="scrumMasterName"
-            value={formData.scrumMasterName}
-            onChange={handleChange}
-          />
-        </Label>
-        <Label>
-          Product Owner Name:
-          <Input
-            type="text"
-            name="productOwnerName"
-            value={formData.productOwnerName}
-            onChange={handleChange}
-          />
-        </Label>
-        <Label>
-          Developers (Maximum 5):
-          <Input
-            type="text"
-            name="developers"
-            value={formData.developers}
-            onChange={handleChange}
-          />
-        </Label>
-
-        <Label>
-          Methodology:
-          <select
-            name="methodology"
-            value={formData.methodology}
-            onChange={handleChange}
-          >
-            <option value="Agile">Agile</option>
-            <option value="Waterfall">Waterfall</option>
-          </select>
-        </Label>
+      <FormWrapper onSubmit={handleSubmit}>
+        <Form>
+          <Label>
+            Product Name
+            <Input
+              type="text"
+              name="productName"
+              value={formData.productName}
+              onChange={handleChange}
+            />
+          </Label>
+          <Label>
+            Product Owner Name
+            <Input
+              type="text"
+              name="productOwnerName"
+              value={formData.productOwnerName}
+              onChange={handleChange}
+            />
+          </Label>
+          <Label>
+            Scrum Master Name
+            <Input
+              type="text"
+              name="scrumMasterName"
+              value={formData.scrumMasterName}
+              onChange={handleChange}
+            />
+          </Label>
+        </Form>
+        <Form>
+          <FormDeveloper>
+            <Label>
+              Developers (Maximum 5, separated by comma*):
+              <Input
+                type="text"
+                name="developers"
+                value={formData.developers}
+                onChange={handleChange}
+              />
+            </Label>
+          </FormDeveloper>
+          <Label>
+            Methodology
+            <select
+              name="methodology"
+              value={formData.methodology}
+              onChange={handleChange}
+            >
+              <option value="Agile">Agile</option>
+              <option value="Waterfall">Waterfall</option>
+            </select>
+          </Label>
+        </Form>
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <Button type="submit">Save</Button>
-      </Form>
+        <SaveButton type="submit">Save</SaveButton>
+      </FormWrapper>
     </>
   );
 };
 
-const Form = styled.form`
+const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
+`;
+const FormDeveloper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Form = styled.div`
+  display: flex;
+
+  gap: 1rem;
+
+  & > * {
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input,
+  select {
+    padding: 0.5rem;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    outline: none;
+    border: 2px solid #005f91;
+    font-size: 16px;
+  }
+
+  input:focus,
+  select:focus {
+    outline: none;
+    /* border-radius: 2px; */
+    border: 2px solid #424656;
+  }
+
+  button[type="submit"] {
+    background-color: #005f91;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 0px 2px 2px 0px;
+    padding: 0.5rem 1rem;
+    vertical-align: middle;
+    outline: none;
+    cursor: pointer;
+  }
 `;
 
 const Label = styled.label`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
 `;
 
 const Input = styled.input`
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
-  margin-top: 0.5rem;
 `;
 
-const Button = styled.button`
-  background-color: #4caf50;
+const SaveButton = styled.button`
+  background-color: #424656;
   color: white;
+  font-size: 18px;
   border: none;
+  border-radius: 2px;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  vertical-align: middle;
+  outline: none;
   cursor: pointer;
-  margin-top: 1rem;
 `;
-
 const ErrorMessage = styled.div`
   color: red;
   margin-top: 0.5rem;

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { FaPlusCircle } from "react-icons/fa";
 
 const AddProduct = ({
   onAddProduct,
@@ -44,6 +45,10 @@ const AddProduct = ({
       startDate &&
       methodology
     ) {
+      const formattedDate = new Date(startDate)
+        .toLocaleDateString()
+        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3/$1/$2");
+
       fetch("http://localhost:5000/api/new-product", {
         method: "POST",
         headers: {
@@ -55,7 +60,7 @@ const AddProduct = ({
           scrumMasterName: scrumMaster,
           productOwnerName: productOwner,
           developers: developerNames,
-          startDate: startDate,
+          startDate: formattedDate,
           methodology: methodology,
         }),
       })
@@ -78,97 +83,167 @@ const AddProduct = ({
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <InputGroup>
-        <label htmlFor="productName">Product Name</label>
-        <input
-          id="productName"
-          value={productName}
-          onChange={(event) => setProductName(event.target.value)}
-          required
-        />
-      </InputGroup>
-
-      <InputGroup>
-        <label htmlFor="scrumMaster">Scrum Master</label>
-        <input
-          id="scrumMaster"
-          value={scrumMaster}
-          onChange={(event) => setScrumMaster(event.target.value)}
-          required
-        />
-      </InputGroup>
-
-      <InputGroup>
-        <label htmlFor="productOwner">Product Owner</label>
-        <input
-          id="productOwner"
-          value={productOwner}
-          onChange={(event) => setProductOwner(event.target.value)}
-        />
-      </InputGroup>
-
-      {developerNames.map((name, index) => (
-        <InputGroup key={index}>
-          <label htmlFor={`developer${index}`}>Developer {index + 1}</label>
+    <FormWrapper onSubmit={handleSubmit}>
+      <Form>
+        <InputGroup>
+          <label htmlFor="productName">Product Name</label>
           <input
-            id={`developer${index}`}
-            name={`developer${index}`}
-            value={name}
-            onChange={(event) => handleDeveloperNameChange(index, event)}
+            id="productName"
+            value={productName}
+            onChange={(event) => setProductName(event.target.value)}
             required
           />
         </InputGroup>
-      ))}
-      {developerNames.length < 5 && (
-        <AddButton type="button" onClick={addDeveloperNameInput}>
-          Add Developer
-        </AddButton>
-      )}
 
-      <InputGroup>
-        <label htmlFor="startDate">Start Date</label>
-        <input
-          id="startDate"
-          type="date"
-          value={startDate}
-          onChange={(event) => setStartDate(event.target.value)}
-          required
-        />
-      </InputGroup>
+        <InputGroup>
+          <label htmlFor="productOwner">Product Owner</label>
+          <input
+            id="productOwner"
+            value={productOwner}
+            onChange={(event) => setProductOwner(event.target.value)}
+          />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor="scrumMaster">Scrum Master</label>
+          <input
+            id="scrumMaster"
+            value={scrumMaster}
+            onChange={(event) => setScrumMaster(event.target.value)}
+            required
+          />
+        </InputGroup>
+      </Form>
+      <Form>
+        <FormDeveloper>
+          {developerNames.map((name, index) => (
+            <InputGroup key={index}>
+              <label htmlFor={`developer${index}`}>Developer {index + 1}</label>
+              <input
+                id={`developer${index}`}
+                name={`developer${index}`}
+                value={name}
+                onChange={(event) => handleDeveloperNameChange(index, event)}
+                required
+              />
+            </InputGroup>
+          ))}
+          {developerNames.length < 5 && (
+            <AddButton type="button" onClick={addDeveloperNameInput}>
+              <FaPlusCircle />
+              Add Developer
+            </AddButton>
+          )}
+        </FormDeveloper>
+        <InputGroup>
+          <label htmlFor="startDate">Start Date</label>
+          <input
+            id="startDate"
+            type="date"
+            value={startDate}
+            onChange={(event) => setStartDate(event.target.value)}
+            required
+          />
+        </InputGroup>
+        <InputGroup>
+          <label htmlFor="methodology">Methodology</label>
+          <select
+            id="methodology"
+            name="methodology"
+            onChange={(event) => setMethodology(event.target.value)}
+            required
+          >
+            <option value="">Select a methodology</option>
+            <option value="Agile">Agile</option>
+            <option value="Waterfall">Waterfall</option>
+          </select>
+        </InputGroup>
+      </Form>
 
-      <InputGroup>
-        <label htmlFor="methodology">Methodology</label>
-        <select
-          id="methodology"
-          name="methodology"
-          onChange={(event) => setMethodology(event.target.value)}
-          required
-        >
-          <option value="">Select a methodology</option>
-          <option value="Agile">Agile</option>
-          <option value="Waterfall">Waterfall</option>
-        </select>
-      </InputGroup>
-      <button type="submit">Save</button>
-    </Form>
+      <SaveButton type="submit">Save</SaveButton>
+    </FormWrapper>
   );
 };
-
-const Form = styled.form`
+const SaveButton = styled.button`
+  background-color: #424656;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 2px;
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+  outline: none;
+  cursor: pointer;
+`;
+const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
+const Form = styled.div`
+  display: flex;
 
+  gap: 1rem;
+
+  & > * {
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input,
+  select {
+    padding: 0.5rem;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    outline: none;
+    border: 2px solid #005f91;
+  }
+
+  input:focus,
+  select:focus {
+    outline: none;
+    /* border-radius: 2px; */
+    border: 2px solid #424656;
+  }
+
+  button[type="submit"] {
+    background-color: #005f91;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 0px 2px 2px 0px;
+    padding: 0.5rem 1rem;
+    vertical-align: middle;
+    outline: none;
+    cursor: pointer;
+  }
+`;
+const FormDeveloper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 `;
 
 const AddButton = styled.button`
-  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #005f91;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  font-size: 14px;
+  margin-top: 2px;
+  cursor: pointer;
+
+  svg {
+    margin-right: 0.5rem;
+  }
 `;
 
 export default AddProduct;

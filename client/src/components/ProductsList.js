@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaEdit } from "react-icons/fa";
+import LoadingIndicator from "./LoadingIndicator";
 
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
@@ -14,7 +15,6 @@ const ProductsList = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleEditClick = (productId) => {
-  
     const productToEdit = products.find(
       (product) => product.productId === productId
     );
@@ -28,7 +28,7 @@ const ProductsList = () => {
       .then((text) => {
         const data = JSON.parse(text);
         setProducts(data);
-      
+
         setProductsListStatus("idle");
       });
   };
@@ -39,7 +39,6 @@ const ProductsList = () => {
   }, []);
 
   const handleProductUpdate = (updatedProduct) => {
-   
     fetch(
       `http://localhost:5000/api/update-product/${updatedProduct.productId}`,
       {
@@ -66,8 +65,8 @@ const ProductsList = () => {
   };
 
   const columns = [
-    { Header: "Product Id", accessor: "productId" },
-    { Header: "Product Name", accessor: "productName" },
+    { Header: "Product Number", accessor: "productId" },
+    { Header: "Product Name ", accessor: "productName" },
     { Header: "Product Owner", accessor: "productOwnerName" },
     { Header: "Scrum Master", accessor: "scrumMasterName" },
     { Header: "Developers", accessor: "developers" },
@@ -78,7 +77,7 @@ const ProductsList = () => {
       accessor: "edit",
       Cell: ({ row }) => (
         <EditButton onClick={() => handleEditClick(row.original.productId)}>
-          <FaEdit />
+          <EditIcon />
         </EditButton>
       ),
     },
@@ -91,7 +90,7 @@ const ProductsList = () => {
       .then((text) => {
         const data = JSON.parse(text);
         setProducts(data);
-   
+
         setProductsListStatus("idle");
       });
   }, []);
@@ -105,20 +104,27 @@ const ProductsList = () => {
   };
 
   return (
-    <>
+    <Container>
       <Header>
-        <h1>Products</h1>
-        <AddButton onClick={handleAddClick}>Add Product</AddButton>
+        <Title>IMB PRODUCTS</Title>
+        <Description>
+          A list of web applications developed by pplications Developed by the
+          BC Government Ministry of Citizens' Services Information Management
+          Branch (IMB)
+        </Description>
       </Header>
-      {productsListStatus === "loading" && (
-        <LoadingIndicator>Loading...</LoadingIndicator>
-      )}
+      {productsListStatus === "loading" && <LoadingIndicator />}
+
       {productsListStatus === "idle" && (
-        <ProductsTable
-          products={products}
-          handleEditClick={handleEditClick}
-          columns={columns}
-        />
+        <>
+          {/* <AddButton onClick={handleAddClick}>Add Product</AddButton> */}
+          <ProductsTable
+            products={products}
+            handleEditClick={handleEditClick}
+            columns={columns}
+            handleAddClick={handleAddClick}
+          />
+        </>
       )}
       {isEditModalOpen && (
         <Modal>
@@ -129,7 +135,7 @@ const ProductsList = () => {
               setIsEditModalOpen={setIsEditModalOpen}
             />
             <CloseButton onClick={() => setIsEditModalOpen(false)}>
-              Close
+              Cancel
             </CloseButton>
           </ModalContent>
         </Modal>
@@ -145,35 +151,36 @@ const ProductsList = () => {
               products={products}
             />
             <CloseButton onClick={() => setIsModalOpen(false)}>
-              Close
+              Cancel
             </CloseButton>
           </ModalContent>
         </Modal>
       )}
-    </>
+    </Container>
   );
 };
 
-const LoadingIndicator = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-`;
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+const Container = styled.div`
+  padding: 100px 50px;
 `;
 
-const AddButton = styled.button`
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
+const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 50px 0;
+  padding: 50px;
+  background-color: #bfcaff;
+  border-radius: 2px;
+`;
+const Title = styled.h1`
+  font-size: 24px;
+  font-weight: bold;
+`;
+const Description = styled.p`
+  font-size: 18px;
+  padding-top: 10px;
 `;
 
 const Modal = styled.div`
@@ -186,31 +193,33 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 110;
 `;
 
 const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: white;
   padding: 2rem;
   border-radius: 0.5rem;
 `;
 
 const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 2rem;
-  background-color: transparent;
+  background-color: #e86e00;
+  margin-top: 2px;
+  color: white;
+  outline: none;
+  font-size: 18px;
   border: none;
+  border-radius: 2px;
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
   cursor: pointer;
-  transition: transform 0.3s;
+`;
 
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  &:focus {
-    outline: none;
-  }
+const EditIcon = styled(FaEdit)`
+  font-size: 24px;
+  color: #005f91;
 `;
 const EditButton = styled.button`
   background-color: transparent;
